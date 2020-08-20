@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable("locations", (tbl) => {
-      tble.increments("id");
+      tbl.increments("id");
       tbl.string("location", 256).notNullable().unique();
     })
     .createTable("owners", (tbl) => {
@@ -39,7 +39,7 @@ exports.up = function (knex) {
         .onUpdate("CASCADE");
     })
     .createTable("owner_items", (tbl) => {
-      tbl.increments(id);
+      tbl.increments("id");
       tbl.integer("quantity").notNullable();
       tbl.decimal("price").notNullable();
       tbl.text("description");
@@ -60,10 +60,10 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
-    .dropIfTableExists("owner_items")
-    .dropIfTableExists("items")
-    .dropIfTableExists("item_categories")
-    .dropIfTableExists("users")
-    .dropIfTableExists("owners")
-    .dropIfTableExists("locations");
+    .dropTableIfExists("owner_items")
+    .dropTableIfExists("items")
+    .dropTableIfExists("item_categories")
+    .dropTableIfExists("users")
+    .dropTableIfExists("owners")
+    .dropTableIfExists("locations");
 };

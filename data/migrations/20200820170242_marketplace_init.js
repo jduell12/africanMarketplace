@@ -10,7 +10,7 @@ exports.up = function (knex) {
         .integer("location_id")
         .unsigned()
         .references("locations.id")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
     .createTable("users", (tbl) => {
@@ -21,7 +21,7 @@ exports.up = function (knex) {
         .integer("owner_id")
         .unsigned()
         .references("owners.id")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
     .createTable("item_categories", (tbl) => {
@@ -35,7 +35,7 @@ exports.up = function (knex) {
         .integer("item_category_id")
         .unsigned()
         .references("item_categories.id")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
     .createTable("owner_items", (tbl) => {
@@ -47,13 +47,13 @@ exports.up = function (knex) {
         .integer("owner_id")
         .unsigned()
         .references("owners.id")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
       tbl
         .integer("item_id")
         .unsigned()
         .references("items.id")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
     });
 };

@@ -23,7 +23,7 @@ describe("UsersModel", () => {
   describe("addUser(user)", () => {
     it("adds a user", async () => {
       const user = {
-        username: "kelly",
+        username: "dragon",
         password: "pass",
       };
       await Users.addUser(user);

@@ -1,5 +1,5 @@
 const pgConnection =
-  process.env.DATABASE_URL || "postgresql://postgres@localhost/marketplace";
+  process.env.DATABASE_URL || "postgresql://localhost/marketplace";
 
 module.exports = {
   development: {
@@ -15,9 +15,6 @@ module.exports = {
     pool: {
       min: 2,
       max: 10,
-      afterCreate: (conn, done) => {
-        conn.run("PRAGMA foreign_keys=ON", done);
-      },
     },
   },
 
@@ -34,9 +31,6 @@ module.exports = {
     pool: {
       min: 2,
       max: 10,
-      afterCreate: (conn, done) => {
-        conn.run("PRAGMA foreign_keys=ON", done);
-      },
     },
 
     production: {
@@ -52,9 +46,6 @@ module.exports = {
       pool: {
         min: 2,
         max: 10,
-        afterCreate: (conn, done) => {
-          conn.run("PRAGMA foreign_keys=ON", done);
-        },
       },
     },
   },

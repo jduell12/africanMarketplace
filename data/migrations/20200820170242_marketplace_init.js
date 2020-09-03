@@ -46,15 +46,6 @@ exports.up = function (knex) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
-    .createTable("items_to_buy", (tbl) => {
-      tbl.increments("id");
-      tbl
-        .integer("item_id")
-        .unsigned()
-        .references("items.id")
-        .onDelete("CASCADE")
-        .onUpdate("CASCADE");
-    })
     .createTable("users", (tbl) => {
       tbl.increments("id");
       tbl.string("username", 256).notNullable().unique();
@@ -66,10 +57,19 @@ exports.up = function (knex) {
         .references("owners.id")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+    })
+    .createTable("items_to_buy", (tbl) => {
+      tbl.increments("id");
       tbl
-        .integer("buy_items")
+        .integer("item_id")
         .unsigned()
-        .references("items_to_buy.id")
+        .references("items.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      tbl
+        .integer("user_id")
+        .unsigned()
+        .references("users.id")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
     });
@@ -77,10 +77,11 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists("items_to_buy")
+    .dropTableIfExists("users")
     .dropTableIfExists("owner_items")
     .dropTableIfExists("items")
     .dropTableIfExists("item_categories")
-    .dropTableIfExists("users")
     .dropTableIfExists("owners")
     .dropTableIfExists("locations");
 };

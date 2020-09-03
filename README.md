@@ -12,4 +12,4 @@
 
 ## Back End
 
-- Using SQlite3 to create a relational database to hold the information of the users of the application and items for sale
+- Using Postgres to create a relational database to hold the information of the users of the application and items for sale

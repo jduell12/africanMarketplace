@@ -4,7 +4,7 @@ const pgConnection =
 module.exports = {
   development: {
     client: "pg",
-    connection: pgConnection,
+    connection: "postgresql://localhost/marketplace",
     useNullAsDefault: true,
     migrations: {
       directory: "./data/migrations",
@@ -20,7 +20,7 @@ module.exports = {
 
   testing: {
     client: "pg",
-    connection: pgConnection,
+    connection: "postgresql://localhost/marketplace_test",
     useNullAsDefault: true,
     migrations: {
       directory: "./data/migrations",

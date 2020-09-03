@@ -13,17 +13,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
-    .createTable("users", (tbl) => {
-      tbl.increments("id");
-      tbl.string("username", 256).notNullable().unique();
-      tbl.string("password", 256).notNullable();
-      tbl
-        .integer("owner_id")
-        .unsigned()
-        .references("owners.id")
-        .onDelete("CASCADE")
-        .onUpdate("CASCADE");
-    })
+
     .createTable("item_categories", (tbl) => {
       tbl.increments("id");
       tbl.string("category", 256).notNullable().unique();
@@ -53,6 +43,33 @@ exports.up = function (knex) {
         .integer("item_id")
         .unsigned()
         .references("items.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+    })
+    .createTable("items_to_buy", (tbl) => {
+      tbl.increments("id");
+      tbl
+        .integer("item_id")
+        .unsigned()
+        .references("items.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+    })
+    .createTable("users", (tbl) => {
+      tbl.increments("id");
+      tbl.string("username", 256).notNullable().unique();
+      tbl.string("password", 256).notNullable();
+      tbl.boolean("is_owner").defaultTo(false);
+      tbl
+        .integer("owner_id")
+        .unsigned()
+        .references("owners.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      tbl
+        .integer("buy_items")
+        .unsigned()
+        .references("items_to_buy.id")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
     });

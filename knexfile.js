@@ -1,9 +1,10 @@
+const pgConnection =
+  process.env.DATABASE_URL || "postgresql://postgres@localhost/marketplace";
+
 module.exports = {
   development: {
-    client: "sqlite3",
-    connection: {
-      filename: "./data/marketplace.db3",
-    },
+    client: "pg",
+    connection: pgConnection,
     useNullAsDefault: true,
     migrations: {
       directory: "./data/migrations",
@@ -12,6 +13,8 @@ module.exports = {
       directory: "./data/seeds",
     },
     pool: {
+      min: 2,
+      max: 10,
       afterCreate: (conn, done) => {
         conn.run("PRAGMA foreign_keys=ON", done);
       },
@@ -19,10 +22,8 @@ module.exports = {
   },
 
   testing: {
-    client: "sqlite3",
-    connection: {
-      filename: "./data/test.db3",
-    },
+    client: "pg",
+    connection: pgConnection,
     useNullAsDefault: true,
     migrations: {
       directory: "./data/migrations",
@@ -31,8 +32,29 @@ module.exports = {
       directory: "./data/seeds",
     },
     pool: {
+      min: 2,
+      max: 10,
       afterCreate: (conn, done) => {
         conn.run("PRAGMA foreign_keys=ON", done);
+      },
+    },
+
+    production: {
+      client: "pg",
+      connection: pgConnection,
+      useNullAsDefault: true,
+      migrations: {
+        directory: "./data/migrations",
+      },
+      seeds: {
+        directory: "./data/seeds",
+      },
+      pool: {
+        min: 2,
+        max: 10,
+        afterCreate: (conn, done) => {
+          conn.run("PRAGMA foreign_keys=ON", done);
+        },
       },
     },
   },

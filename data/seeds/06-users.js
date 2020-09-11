@@ -3,10 +3,17 @@ exports.seed = function (knex) {
     {
       username: "alex",
       password: "pass",
+      first_name: "Alexandria",
       owner_id: 1,
       is_owner: true,
     },
-    { username: "sam", password: "pass", owner_id: 2, is_owner: true },
-    { username: "wolf", password: "pass", is_owner: false },
+    {
+      username: "sam",
+      password: "pass",
+      first_name: "Samantha",
+      owner_id: 2,
+      is_owner: true,
+    },
+    { username: "wolf", password: "pass", first_name: "Wolf", is_owner: false },
   ]);
 };

@@ -50,6 +50,7 @@ exports.up = function (knex) {
       tbl.increments("id");
       tbl.string("username", 256).notNullable().unique();
       tbl.string("password", 256).notNullable();
+      tbl.string("first_name", 256).notNullable();
       tbl.boolean("is_owner").defaultTo(false);
       tbl
         .integer("owner_id")

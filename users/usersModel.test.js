@@ -43,5 +43,39 @@ describe("UsersModel", () => {
       expect(users).toHaveLength(1);
       expect(users).toEqual(expected);
     });
+
+    it("adds a user successfully to a non-empty database", async () => {
+      const user = {
+        username: "dragon",
+        password: "pass",
+      };
+
+      const expected = [
+        {
+          username: "dragon",
+          password: "pass",
+          is_owner: false,
+          owner_id: null,
+          id: 1,
+        },
+        {
+          username: "wolf",
+          password: "pass",
+          is_owner: false,
+          owner_id: null,
+          id: 2,
+        },
+      ];
+
+      await Users.addUser(user);
+      await Users.addUser({
+        username: "wolf",
+        password: "pass",
+      });
+
+      const users = await db("users");
+      expect(users).toHaveLength(2);
+      expect(users).toEqual(expected);
+    });
   });
 });

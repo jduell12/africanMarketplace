@@ -33,4 +33,7 @@ async function deleteUser(userID) {
   return db("users").where({ id: userID }).del();
 }
 
-async function getUserById(user) {}
+//returns a user object with the given id
+async function getUserById(userId) {
+  return db("users").where({ id: userId }).first();
+}

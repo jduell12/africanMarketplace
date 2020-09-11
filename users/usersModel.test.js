@@ -251,4 +251,92 @@ describe("UsersModel", () => {
       expect(users).toEqual(expected);
     });
   });
+
+  describe("getUserById(userId)", () => {
+    it("gets correct user when only 1 user in database", async () => {
+      await db("users").insert(
+        {
+          username: "dragon",
+          password: "pass",
+          first_name: "Dragon",
+        },
+        "id",
+      );
+
+      const expected = {
+        username: "dragon",
+        password: "pass",
+        first_name: "Dragon",
+        is_owner: false,
+        owner_id: null,
+        id: 1,
+      };
+
+      const user = await Users.getUserById(1);
+      expect(user).toEqual(expected);
+    });
+
+    it("gets correct user when more than 1 users in database", async () => {
+      await db("users").insert(
+        {
+          username: "dragon",
+          password: "pass",
+          first_name: "Dragon",
+        },
+        "id",
+      );
+      await db("users").insert(
+        {
+          username: "wolf",
+          password: "pass",
+          first_name: "Wolf",
+        },
+        "id",
+      );
+      await db("users").insert(
+        {
+          username: "dragon2",
+          password: "pass",
+          first_name: "Jess",
+        },
+        "id",
+      );
+
+      const expected1 = {
+        username: "dragon",
+        password: "pass",
+        first_name: "Dragon",
+        is_owner: false,
+        owner_id: null,
+        id: 1,
+      };
+
+      const expected2 = {
+        username: "wolf",
+        password: "pass",
+        first_name: "Wolf",
+        is_owner: false,
+        owner_id: null,
+        id: 2,
+      };
+
+      const expected3 = {
+        username: "dragon2",
+        password: "pass",
+        first_name: "Jess",
+        is_owner: false,
+        owner_id: null,
+        id: 3,
+      };
+
+      const user1 = await Users.getUserById(1);
+      expect(user1).toEqual(expected1);
+
+      const user2 = await Users.getUserById(2);
+      expect(user2).toEqual(expected2);
+
+      const user3 = await Users.getUserById(3);
+      expect(user3).toEqual(expected3);
+    });
+  });
 });

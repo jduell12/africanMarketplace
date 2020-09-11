@@ -182,4 +182,73 @@ describe("UsersModel", () => {
       expect(users).toEqual(expect.arrayContaining(expected));
     });
   });
+
+  describe("deleteUser(userId)", () => {
+    it("deletes user when only 1 user in database", async () => {
+      await db("users").insert(
+        {
+          username: "wolf",
+          password: "pass",
+          first_name: "Wolf",
+        },
+        "id",
+      );
+
+      await Users.deleteUser(1);
+      const users = await db("users");
+      expect(users).toHaveLength(0);
+      expect(users).toEqual([]);
+    });
+
+    it("deletes user when more than 1 user in database and leaves rest of users untouched", async () => {
+      await db("users").insert(
+        {
+          username: "dragon",
+          password: "pass",
+          first_name: "Dragon",
+        },
+        "id",
+      );
+      await db("users").insert(
+        {
+          username: "wolf",
+          password: "pass",
+          first_name: "Wolf",
+        },
+        "id",
+      );
+      await db("users").insert(
+        {
+          username: "dragon2",
+          password: "pass",
+          first_name: "Jess",
+        },
+        "id",
+      );
+
+      const expected = [
+        {
+          username: "dragon",
+          password: "pass",
+          first_name: "Dragon",
+          is_owner: false,
+          owner_id: null,
+          id: 1,
+        },
+        {
+          username: "dragon2",
+          password: "pass",
+          first_name: "Jess",
+          is_owner: false,
+          owner_id: null,
+          id: 3,
+        },
+      ];
+
+      await Users.deleteUser(2);
+      const users = await db("users");
+      expect(users).toHaveLength(2);
+      expect(users).toEqual(expected);
+    });
+  });
 });

@@ -28,8 +28,9 @@ async function editUser(userId, user) {
     });
 }
 
-async function deleteUser(user) {
-  return null;
+//deletes user with given id and returns the count of records delted
+async function deleteUser(userID) {
+  return db("users").where({ id: userID }).del();
 }
 
 async function getUserById(user) {}
